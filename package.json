@@ -1,0 +1,39 @@
+{
+  "name": "pre-testing-raymiah",
+  "version": "1.0.0",
+  "description": "Todo List",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel index.js -d dist",
+    "start": "npx nodemon --exec npx babel-node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fac-23/preA-testing-raymiah.git"
+  },
+  "keywords": [
+    "todo",
+    "list"
+  ],
+  "author": "raymond thompson &  miah bates",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fac-23/preA-testing-raymiah/issues"
+  },
+  "homepage": "https://github.com/fac-23/preA-testing-raymiah#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1"
+  },
+  "dependencies": {
+    "@babel/eslint-parser": "^7.18.9"
+  }
+}

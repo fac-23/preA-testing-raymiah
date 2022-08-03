@@ -2,3 +2,5 @@
 .eslintrc.json
 .prettierrc
 .vscode/
+
+node_modules/
