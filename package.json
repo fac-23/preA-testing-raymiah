@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel index.js -d dist",
-    "start": "npx nodemon --exec npx babel-node server.js",
+    "start": "npx nodemon --exec npx babel-node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
