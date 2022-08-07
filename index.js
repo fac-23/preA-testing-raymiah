@@ -6,8 +6,8 @@ const theTasks = [];
 
 const completedTasks = () => {
 	// get todo list
-	// eslint-disable-next-line prefer-destructuring
-	const completeTask = todoList.children;
+	const { children } = todoList;
+	const completeTask = children;
 
 	// check if todo list contains any tasks
 	if (completeTask.length === 0) {
@@ -20,17 +20,14 @@ const completedTasks = () => {
 		(item) => item.classList[1]
 	);
 
-	// eslint-disable-next-line no-console
-	console.log(compTasks);
+	compTasks.forEach((element) => {
+		// eslint-disable-next-line no-console
+		console.log(element.children);
 
-	// eslint-disable-next-line no-plusplus
-	for (let i = 0; i < compTasks.length; i++) {
-		// eslint-disable-next-line prefer-destructuring
-		const completeLabel = compTasks[i].childNodes[1];
+		const [completeLabel, completeCheckBox] = [...element.children];
 
-		// get checkbox
-		// eslint-disable-next-line prefer-destructuring
-		const completeCheckBox = compTasks[i].childNodes[0];
+		// eslint-disable-next-line no-console
+		console.log(completeLabel, completeCheckBox);
 
 		if (completeCheckBox.checked) {
 			// eslint-disable-next-line no-console
@@ -58,13 +55,13 @@ const completedTasks = () => {
 			}
 			// add updated task object to local storage
 		});
-	}
+	});
 };
 
 const moveItem = () => {
 	// get all list items.
-	// eslint-disable-next-line prefer-destructuring
-	const taskToDelete = todoList.children;
+	const { children } = todoList;
+	const taskToDelete = children;
 
 	// get completed task container
 	const completedTasksList = document.querySelector("#complete");
@@ -77,12 +74,15 @@ const moveItem = () => {
 	// conditional to prevent uncaught reference error as completedListIt not created yet.
 	if (completedListIt.length > 0) {
 		// get checkbox
-		// eslint-disable-next-line prefer-destructuring
-		const completedCheck = completedListIt[0].childNodes[0];
+		const [data] = [...completedListIt];
 
-		// eslint-disable-next-line prefer-destructuring
-		const completedLabel = completedListIt[0].childNodes[1];
+		// get todo checkbox and label
+		const [completedCheck, completedLabel] = [...data.childNodes];
 
+		// eslint-disable-next-line no-console
+		console.log(completedCheck, completedLabel);
+
+		// add completed task to local storage as completed item.
 		localStorage.setItem(
 			`completed-Items-${completedLabel.innerHTML}`,
 			`${completedLabel.innerHTML}`
@@ -178,7 +178,7 @@ const addItemToList = (e) => {
 		if (checkBox.checked) {
 			itemContainer.classList.add("completed");
 			// add todo to completed tasks to be added to complete section
-			completedTasks(e);
+			completedTasks();
 		} else if (!checkBox.checked) {
 			itemContainer.classList.remove("completed");
 		}
@@ -215,9 +215,6 @@ const loadTasks = () => {
 		const nonCompListTasks = Object.entries(tasks).filter(
 			(item) => !item[0].includes("completed")
 		);
-
-		// eslint-disable-next-line no-console
-		console.log(nonCompListTasks);
 
 		// iterate over non completed todos array and get todo value
 		nonCompListTasks.forEach((value) => {
@@ -279,8 +276,6 @@ const loadTasks = () => {
 			// click delete button to remove item container
 			deleteButton.addEventListener("click", (event) => {
 				event.preventDefault();
-				// eslint-disable-next-line no-console
-				console.log(deleteButton.id, value[0]);
 				// move item to completed section
 				moveItem();
 				// remove todo coontainer
@@ -298,9 +293,6 @@ const loadTasks = () => {
 		const compListTasks = Object.entries(tasks).filter((item) =>
 			item[0].includes("completed")
 		);
-
-		// eslint-disable-next-line no-console
-		console.log(compListTasks);
 
 		// iterate over completed tasks array and get value and key
 		compListTasks.forEach((value, key) => {
