@@ -72,6 +72,7 @@ const moveItem = () => {
 	);
 
 	// conditional to prevent uncaught reference error as completedListIt not created yet.
+
 	if (completedListIt.length > 0) {
 		// get checkbox
 		const [data] = [...completedListIt];
