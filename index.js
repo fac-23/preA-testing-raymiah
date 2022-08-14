@@ -353,7 +353,7 @@ const loadTasks = () => {
 			delButton.addEventListener("click", () => {
 				// check if delete button id matches local storage id.
 				if (delButton.id === `${value[0]}`) {
-					// delete todo task from local storage permanently
+					// delete todo from local storage permanently
 					if (window.localStorage) {
 						localStorage.removeItem(`${value[0]}`);
 					}
