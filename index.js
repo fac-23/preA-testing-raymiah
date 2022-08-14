@@ -70,10 +70,9 @@ const moveItem = () => {
 		element.childNodes[0].checked ? element : false
 	);
 
-	const [data] = [...completedListIt];
-
 	// conditional to prevent uncaught reference error as completedListIt not created yet.
-	if (data.length > 0) {
+	if (completedListIt.length > 0) {
+		const [data] = [...completedListIt];
 		// get todo checkbox and label
 		const [completedCheck, completedLabel] = [...data.childNodes];
 
