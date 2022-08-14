@@ -1,4 +1,5 @@
-const submitButton = document.getElementById("submit");
+// const submitButton = document.getElementById("submit");
+const submitForm = document.getElementById("todo-form");
 const todoList = document.getElementById("todoList");
 
 // let idx = 0;
@@ -73,7 +74,6 @@ const moveItem = () => {
 	// conditional to prevent uncaught reference error as completedListIt not created yet.
 	if (completedListIt.length > 0) {
 		const [data] = [...completedListIt];
-		// get todo checkbox and label
 		const [completedCheck, completedLabel] = [...data.childNodes];
 
 		// eslint-disable-next-line no-console
@@ -85,6 +85,17 @@ const moveItem = () => {
 			`${completedLabel.innerHTML}`
 		);
 
+		// Todo task delete button
+		const deleteButton = document.createElement("BUTTON");
+		deleteButton.type = "button";
+		deleteButton.setAttribute("class", "deleteButton");
+		deleteButton.setAttribute("id", `listitem-${uid()}`);
+		deleteButton.setAttribute("aria-label", "delete task");
+		// add logo to delete todo button using span
+		const deleteSpan = document.createElement("span");
+		deleteSpan.classList.add("far", "fa-trash-alt");
+		deleteButton.appendChild(deleteSpan);
+
 		// create new list element
 		const completedHeader = document.querySelector("H2");
 		completedHeader.classList.remove("hidden");
@@ -93,9 +104,8 @@ const moveItem = () => {
 
 		// // add completed check box
 		completedListItem.appendChild(completedCheck);
-		// // add label (strikethrough not showing)
 		completedListItem.appendChild(completedLabel);
-		// add completed list item to completed section
+		completedListItem.appendChild(deleteButton);
 		completedTasksList.append(completedListItem);
 	}
 
@@ -105,9 +115,12 @@ const moveItem = () => {
 
 const addItemToList = (e) => {
 	e.preventDefault();
+	// get input value remove any whitespace
+	const [userInput] = [e.target[0]];
+	const itemToAdd = userInput.value.trim();
 
 	// get input value remove any whitespace
-	const itemToAdd = document.getElementById("addItem").value.trim();
+	// const itemToAdd = document.getElementById("addItem").value.trim();
 
 	// grab error message and hide it
 	const errorMessage = document.querySelector(".error");
@@ -189,9 +202,9 @@ const addItemToList = (e) => {
 		moveItem();
 		// remove selected todo from todo list container
 		itemContainer.remove();
-		// check if delete button id matches todo task.
+		// check if delete button id matches checkbox id.
 		if (deleteButton.id === checkBox.id) {
-			// delete todo task from local storage
+			// if so,  remove todo from local storage
 			if (window.localStorage) {
 				localStorage.removeItem(`${checkBox.id}`);
 			}
@@ -359,4 +372,4 @@ const loadTasks = () => {
 loadTasks();
 
 // add task to todo list
-submitButton.addEventListener("click", addItemToList);
+submitForm.addEventListener("submit", addItemToList);
