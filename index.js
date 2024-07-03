@@ -1,34 +1,35 @@
-// const submitButton = document.getElementById("submit");
+// Const submitButton = document.getElementById("submit");
 const submitForm = document.getElementById("todo-form");
 const todoList = document.getElementById("todoList");
 
-// let idx = 0;
-// create unique id
+// Create unique id
 // https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
-const uid = () =>
-	Date.now().toString(36) + Math.random().toString(36).substring(2);
-
-// todos array
+function uid() {
+	return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
+// Todos array
 const theTasks = [];
 
-const completedTasks = () => {
-	// get todo list
+function completedTasks() {
+	// Get todo list
 	const { children } = todoList;
 	const completeTask = children;
 
-	// check if todo list contains any tasks
+	// Check if todo list contains any tasks
 	if (completeTask.length === 0) {
 		// eslint-disable-next-line no-console
 		console.log("no items");
 	}
 
-	// iterate over todo list. filter and return array todo items checked as complete
+	// Iterate over todo list array. filter and return array todo items checked as complete
 	const compTasks = Array.from(completeTask).filter(
 		(item) => item.classList[1]
 	);
 
 	const result = compTasks.forEach((element) => {
-		const [completeCheckBox, completeLabel] = [...element.children];
+		const [completeLabel] = [...element.children];
+
+		const [completeCheckBox] = [...completeLabel.children];
 
 		if (completeCheckBox.checked) {
 			// eslint-disable-next-line no-console
@@ -37,52 +38,33 @@ const completedTasks = () => {
 			// eslint-disable-next-line no-console
 			console.log("item not checked as completed");
 		}
-
-		completeLabel.addEventListener("click", () => {
-			// eslint-disable-next-line no-console
-			console.log("label clicked");
-		});
-
-		// remove checked item
-		completeCheckBox.addEventListener("change", () => {
-			if (!completeCheckBox.checked) {
-				// eslint-disable-next-line no-console
-				console.log("item not checked as completed");
-			} else {
-				// eslint-disable-next-line no-console
-				console.log("item checked as completed");
-			}
-		});
 	});
 
 	return result;
-};
+}
 
-const moveItem = () => {
-	// get all list items.
+function moveItem() {
+	// Get all list items.
 	const { children } = todoList;
-	const taskToDelete = children;
+	const taskToMove = children;
 
-	// get completed task list container
-	const completedTasksList = document.querySelector("#complete");
+	// Get completed task list container
+	const completedTasksCont = document.querySelector("#complete");
 
-	// return array of list items with checkbox checked true.
-	const completedListIt = Array.from(taskToDelete).filter((element) =>
-		element.childNodes[0].checked ? element : false
+	// Return array of list items with checkbox checked true.
+	const taskToMoveList = Array.from(taskToMove).filter((element) =>
+		element.childNodes[0].firstChild.checked ? element : false
 	);
 
-	// conditional to prevent uncaught reference error as completedListIt not created yet.
-	if (completedListIt.length > 0) {
-		const [data] = [...completedListIt];
-		const [completedCheck, completedLabel] = [...data.childNodes];
+	// Conditional to prevent uncaught reference error as completedListIt not created yet.
+	if (taskToMoveList.length > 0) {
+		const [data] = [...taskToMoveList];
+		const [completedCheck] = [...data.childNodes];
 
-		// eslint-disable-next-line no-console
-		console.log(completedCheck, completedLabel);
-
-		// add completed task to local storage as completed item.
+		//Add completed task to local storage as completed item.
 		localStorage.setItem(
-			`completed-${completedCheck.id}`,
-			`${completedLabel.innerHTML}`
+			`completed-${completedCheck.firstChild.id}`,
+			completedCheck.lastChild.textContent
 		);
 
 		// Todo task delete button
@@ -91,36 +73,43 @@ const moveItem = () => {
 		deleteButton.setAttribute("class", "deleteButton");
 		deleteButton.setAttribute("id", `listitem-${uid()}`);
 		deleteButton.setAttribute("aria-label", "delete task");
-		// add logo to delete todo button using span
+
+		// Add logo to delete todo button using span
 		const deleteSpan = document.createElement("span");
 		deleteSpan.classList.add("far", "fa-trash-alt");
 		deleteButton.appendChild(deleteSpan);
 
-		// create new list element
+		// Create new list element
 		const completedHeader = document.querySelector("H2");
 		completedHeader.classList.remove("hidden");
+
 		const completedListItem = document.createElement("LI");
 		completedListItem.setAttribute("class", `list-item`);
 
 		// // add completed check box
 		completedListItem.appendChild(completedCheck);
-		completedListItem.appendChild(completedLabel);
 		completedListItem.appendChild(deleteButton);
-		completedTasksList.append(completedListItem);
+		completedTasksCont.append(completedListItem);
+
+		// click delete button to remove todo container
+		deleteButton.addEventListener("click", () => {
+			// check if delete button id matches checkbox id.
+			if (deleteButton.id === completedCheck.firstChild.id) {
+				//remove todo from local storage
+				localStorage.removeItem(`${completedCheck.firstChild.id}`);
+			}
+		});
 	}
 
 	// eslint-disable-next-line no-console
 	return console.error("completed item created");
-};
+}
 
-const addItemToList = (e) => {
+function addItemToList(e) {
 	e.preventDefault();
-	// get input value remove any whitespace
+	// Get input value remove any whitespace
 	const [userInput] = [e.target[0]];
 	const itemToAdd = userInput.value.trim();
-
-	// get input value remove any whitespace
-	// const itemToAdd = document.getElementById("addItem").value.trim();
 
 	// grab error message and hide it
 	const errorMessage = document.querySelector(".error");
@@ -145,10 +134,17 @@ const addItemToList = (e) => {
 
 	// Todo task checkbox
 	const checkBox = document.createElement("INPUT");
+	checkBox.type = "checkbox";
 	checkBox.setAttribute(
 		"aria-label",
 		`check the checkbox to mark this task as completed`
 	);
+	checkBox.setAttribute("id", `listitem-${uid()}`);
+	checkBox.setAttribute("class", "list_item");
+
+	// Add checkbox to the label before the text
+	itemLabel.appendChild(checkBox);
+	itemLabel.appendChild(document.createTextNode(itemToAdd));
 
 	// Todo task delete button
 	const deleteButton = document.createElement("BUTTON");
@@ -169,21 +165,14 @@ const addItemToList = (e) => {
 		localStorage.setItem(`listitem-${uid()}`, `${itemToAdd}`);
 	}
 
-	// add todo task to todo label;
-	// eslint-disable-next-line prefer-destructuring
-	itemLabel.innerHTML = itemToAdd;
 	// add checkbox, label & delete button to todo list.
-	itemContainer.appendChild(checkBox);
 	itemContainer.appendChild(itemLabel);
 	itemContainer.appendChild(deleteButton);
-	// add todo container to todo list.
 	todoList.appendChild(itemContainer);
 
-	checkBox.type = "checkbox";
-	checkBox.setAttribute("id", `listitem-${uid()}`);
-	checkBox.setAttribute("class", "list_item");
-
-	checkBox.addEventListener("change", () => {
+	checkBox.addEventListener("change", (event) => {
+		// eslint-disable-next-line no-console
+		console.log(event);
 		// check if checkbox is checked
 		if (checkBox.checked) {
 			// add css class
@@ -204,30 +193,28 @@ const addItemToList = (e) => {
 		itemContainer.remove();
 		// check if delete button id matches checkbox id.
 		if (deleteButton.id === checkBox.id) {
-			// if so,  remove todo from local storage
-			if (window.localStorage) {
-				localStorage.removeItem(`${checkBox.id}`);
-			}
+			// remove todo from local storage
+			localStorage.removeItem(`${checkBox.id}`);
 		}
 	});
 
 	// reset input
 	document.getElementById("addItem").value = "";
-};
+}
 
-const loadTasks = () => {
+function loadCompletedTasks() {
 	// check if local storage has data
 	if (window.localStorage) {
 		// get todos data from local storage
 		const tasks = { ...window.localStorage };
 
 		// return array of todos not checked as completed
-		const nonCompListTasks = Object.entries(tasks).filter(
+		const CompletedTasks = Object.entries(tasks).filter(
 			(item) => !item[0].includes("completed")
 		);
 
 		// iterate over array of todos not completed and get value array
-		nonCompListTasks.forEach((value) => {
+		CompletedTasks.forEach((value) => {
 			// reload todo container
 			const itemContainer = document.createElement("LI");
 			itemContainer.setAttribute("id", `todo-${value[0]}`);
@@ -236,6 +223,8 @@ const loadTasks = () => {
 			// reload todo container label
 			const itemLabel = document.createElement("LABEL");
 			itemLabel.setAttribute("for", `${value[0]}`);
+			// reloadtodo task as label title.
+			itemLabel.setAttribute("title", value[1]);
 
 			// reload todo container checkbox
 			const checkBox = document.createElement("INPUT");
@@ -247,10 +236,9 @@ const loadTasks = () => {
 			checkBox.setAttribute("id", `${value[0]}`);
 			checkBox.setAttribute("class", "list_item");
 
-			// reload todo value to todo label.
-			itemLabel.innerHTML = `${value[1]}`;
-			// reloadtodo task as label title.
-			itemLabel.setAttribute("title", value[1]);
+			// Add checkbox to the label before the text
+			itemLabel.appendChild(checkBox);
+			itemLabel.appendChild(document.createTextNode(`${value[1]}`));
 
 			// reload todo container delete button.
 			const deleteButton = document.createElement("BUTTON");
@@ -265,7 +253,6 @@ const loadTasks = () => {
 			deleteButton.appendChild(deleteSpan);
 
 			// reload label, delete button and checkbox to todo container.
-			itemContainer.appendChild(checkBox);
 			itemContainer.appendChild(itemLabel);
 			itemContainer.appendChild(deleteButton);
 			todoList.appendChild(itemContainer);
@@ -294,12 +281,12 @@ const loadTasks = () => {
 		});
 
 		// return array of todos checked as completed
-		const compListTasks = Object.entries(tasks).filter((item) =>
+		const CompletedTasksList = Object.entries(tasks).filter((item) =>
 			item[0].includes("completed")
 		);
 
 		// iterate over completed todos and get value array
-		compListTasks.forEach((value) => {
+		CompletedTasksList.forEach((value) => {
 			// get completed task container
 			const compTasksList = document.querySelector("#complete");
 
@@ -318,7 +305,7 @@ const loadTasks = () => {
 			itemLab.setAttribute("for", `${value[0]}`);
 			// give label matching title of item to add
 			itemLab.setAttribute("title", value[1]);
-			itemLab.innerHTML = `${value[1]}`;
+			// itemLab.innerHTML = `${value[1]}`;
 
 			// create todo container checkbox
 			const compCheckBox = document.createElement("INPUT");
@@ -331,6 +318,10 @@ const loadTasks = () => {
 			compCheckBox.type = "checkbox";
 			compCheckBox.setAttribute("id", `${value[0]}`);
 			compCheckBox.setAttribute("class", "list_item");
+
+			// Add checkbox to the label before the text
+			itemLab.appendChild(compCheckBox);
+			itemLab.appendChild(document.createTextNode(`${value[1]}`));
 
 			// Todo task delete button
 			const delButton = document.createElement("BUTTON");
@@ -345,7 +336,7 @@ const loadTasks = () => {
 			delButton.appendChild(deleteSpan);
 
 			// append todo container, lable & checkbox to todo item list container
-			itemCont.appendChild(compCheckBox);
+			// itemCont.appendChild(compCheckBox);
 			itemCont.appendChild(itemLab);
 			itemCont.appendChild(delButton);
 			compTasksList.appendChild(itemCont);
@@ -365,11 +356,11 @@ const loadTasks = () => {
 	}
 
 	// reset value
-	document.getElementById("addItem").value = "";
-};
+	//document.getElementById("addItem").value = "";
+}
 
 // load tasks on page reload
-loadTasks();
+loadCompletedTasks();
 
 // add task to todo list
 submitForm.addEventListener("submit", addItemToList);
