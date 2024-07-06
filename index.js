@@ -36,16 +36,22 @@ function completedTasks() {
 	const result = compTasks.forEach((element) => {
 		const [completeLabel, completeButton] = [...element.children];
 
-		const [completeCheckBox, completeText] = [...completeLabel.children];
+		const [completeCheckBox] = [...completeLabel.children];
+
+		// eslint-disable-next-line no-console
+		console.log(completeLabel.lastChild);
 
 		// delete button to remove todo container
 		completeButton.addEventListener("click", () => {
 			// if id string includes completed.
-			if (completeButton.id.includes("complete")) {
+			if (completeCheckBox.id.includes("completed")) {
 				// remove todo from todo list container
 				element.remove();
 				//remove todo from local storage
-				localStorage.removeItem(`${completeCheckBox}`, `${completeText}`);
+				localStorage.removeItem(
+					`${completeCheckBox.id}`,
+					`${completeLabel.lastChild}`
+				);
 			}
 		});
 	});
