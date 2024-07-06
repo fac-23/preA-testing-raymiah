@@ -1,4 +1,7 @@
-// eslint-disable-next-line func-style
+/* eslint-disable no-negated-condition */
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+
 function equal(actual, expected, message) {
 	if (actual === expected) {
 		const defaultMessage = `Expected ${expected} and received ${actual}`;
@@ -9,7 +12,6 @@ function equal(actual, expected, message) {
 	}
 }
 
-// eslint-disable-next-line func-style
 function notEqual(actual, expected, message) {
 	if (actual !== expected) {
 		const defaultMessage = `${expected} is different to ${actual}`;
@@ -20,7 +22,6 @@ function notEqual(actual, expected, message) {
 	}
 }
 
-// eslint-disable-next-line func-style
 function test(name, testFunction) {
 	console.group(name);
 	testFunction();
