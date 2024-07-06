@@ -19,6 +19,10 @@ function loadTodos(id, item) {
 	checkBox.setAttribute("id", `${id}`);
 	checkBox.setAttribute("class", "list_item");
 
+	if (id.includes("completed")) {
+		checkBox.checked = true;
+	}
+
 	// Add checkbox to the label before the text
 	itemLabel.appendChild(checkBox);
 	itemLabel.appendChild(document.createTextNode(`${item}`));

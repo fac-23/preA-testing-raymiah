@@ -1,4 +1,3 @@
-// Const submitButton = document.getElementById("submit");
 const submitForm = document.getElementById("todo-form");
 const todoList = document.getElementById("todoList");
 
@@ -11,8 +10,6 @@ import loadAllTodo from "./loadAllTodo.js";
 function uid() {
 	return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
-// Todos array
-const theTasks = [];
 
 // Get completed todos container
 const completedTasksCont = document.getElementById("complete");
@@ -24,12 +21,15 @@ function completedTasks() {
 	// array of todo items checked as complete
 	const compTasks = Array.from(completeTask);
 
+	const completedHeader = document.querySelector("#error");
+	completedHeader.classList.remove("hidden");
+
 	// Check if todo list contains any tasks
-	if (completeTask.length === 0) {
+	if (compTasks.length <= 0) {
 		// eslint-disable-next-line no-console
 		console.log("no items");
 		// Create new list element
-		const completedHeader = document.querySelector("H2");
+		// const completedHeader = document.querySelector("#error");
 		completedHeader.classList.add("hidden");
 	}
 
@@ -38,11 +38,11 @@ function completedTasks() {
 
 		const [completeCheckBox, completeText] = [...completeLabel.children];
 
-		// click delete button to remove todo container
+		// delete button to remove todo container
 		completeButton.addEventListener("click", () => {
-			// check if delete button id matches checkbox id.
+			// if id string includes completed.
 			if (completeButton.id.includes("complete")) {
-				// remove selected todo from todo list container
+				// remove todo from todo list container
 				element.remove();
 				//remove todo from local storage
 				localStorage.removeItem(`${completeCheckBox}`, `${completeText}`);
@@ -52,7 +52,6 @@ function completedTasks() {
 
 	return result;
 }
-// completedTasks();
 
 function moveItem() {
 	// Get all todos created.
@@ -111,9 +110,6 @@ function addItemToList(e) {
 		return;
 	}
 
-	// add value from user input to array to for future use.
-	theTasks.push(itemToAdd);
-
 	// create todo
 	const itemContainer = createTodo(`${uid()}`, itemToAdd);
 
@@ -169,9 +165,8 @@ function loadAllTasks() {
 		// get todos data from local storage
 		const allTasks = { ...window.localStorage };
 
-		// create list element
 		// remove hidden class to show header
-		const compHeader = document.querySelector("H2");
+		const compHeader = document.querySelector("#error");
 		compHeader.classList.remove("hidden");
 
 		// return array of todos not checked as completed
@@ -211,7 +206,7 @@ function loadAllTasks() {
 				}
 
 				if (!todoCheckBox.checked) {
-					localStorage.removeItem(`${todoCheckBox.id}`);
+					localStorage.removeItem(`${value[0]}`, `${value[1]}`);
 					itemContainer.remove();
 				}
 			});
@@ -238,23 +233,21 @@ function loadAllTasks() {
 			// get todo checkbox inside label
 			const [todoCheckBox] = [...todolabel.children];
 
-			// eslint-disable-next-line no-console
-			console.log(todoCheckBox);
+			if (!todoCheckBox.checked) {
+				todoCheckBox.checked = true;
+			}
 
 			todoDelete.addEventListener("click", () => {
 				// check if delete button id matches checkbox id.
 				if (todoDelete.id.includes("complete")) {
 					// remove selected todo from todo list container
-					todoDelete.remove();
+					compItemCont.remove();
 					//remove todo from local storage
 					localStorage.removeItem(`${value[0]}`, `${value[1]}`);
 				}
 			});
 		});
 	}
-
-	// reset value
-	//document.getElementById("addItem").value = "";
 }
 
 // load tasks on page reload
