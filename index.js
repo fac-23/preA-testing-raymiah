@@ -1,18 +1,16 @@
-const submitForm = document.getElementById("todo-form");
-const todoList = document.getElementById("todoList");
-
 import createTodo from "./createTodo.js";
 import createTodoCompleted from "./createTodoCompleted.js";
 import loadAllTodo from "./loadAllTodo.js";
+
+const submitForm = document.getElementById("todo-form");
+const todoList = document.getElementById("todoList");
+const completedTasksCont = document.getElementById("complete");
 
 // Create unique id
 // https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
 function uid() {
 	return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
-
-// Get completed todos container
-const completedTasksCont = document.getElementById("complete");
 
 function completedTasks() {
 	// Get todo list of completed items
