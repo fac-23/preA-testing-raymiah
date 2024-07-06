@@ -1,44 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Task List</title>
+		<link rel="stylesheet" type="text/css" href="index.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Open+Sans&family=Poppins:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<script
+			src="https://kit.fontawesome.com/288a4a188a.js"
+			crossorigin="anonymous"
+		></script>
+		<!-- <script src="test-helpers.js" defer></script> -->
+		<script src="index.js" type="module" defer></script>
+		<!-- <script src="index.test.js" defer></script> -->
+	</head>
 
-
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Task List</title>
-	<link rel="stylesheet" type="text/css" href="index.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Open+Sans&family=Poppins:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
-		rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&display=swap" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/288a4a188a.js" crossorigin="anonymous"></script>
-	<!-- <script src="test-helpers.js" defer></script> -->
-	<script src="index.js" defer></script>
-	<!-- <script src="index.test.js" defer></script> -->
-</head>
-
-<body>
-	<main>
-
-		<section id="wrapper">
-			<h1>To-do-List</h1>
-			<form action="" id="todo-form">
-				<input id="addItem" name="additem" type="text" placeholder="Add a new task..." />
-				<button id="submit" type="submit" aria-label="add task"><span class="fas fa-plus"></span></button>
-			</form>
-			<p class="error hidden" aria-describedby="error">Please enter a valid input</p>
-			<ul id="todoList">
-			</ul>
-			<br />
-			<h2 class="hidden" id="error">Completed Items</h2>
-			<ul id="complete">
-			</ul>
-		</section>
-	</main>
-</body>
-
-
+	<body>
+		<main>
+			<section id="wrapper">
+				<h1>To-do-List</h1>
+				<form action="" id="todo-form">
+					<input
+						id="addItem"
+						name="additem"
+						type="text"
+						placeholder="Add a new task..."
+					/>
+					<button id="submit" type="submit" aria-label="add task">
+						<span class="fas fa-plus"></span>
+					</button>
+				</form>
+				<p class="error hidden" aria-describedby="error">
+					Please enter a valid input
+				</p>
+				<ul id="todoList"></ul>
+				<br />
+				<h2 class="hidden" id="error">Completed Items</h2>
+				<ul id="complete"></ul>
+			</section>
+		</main>
+	</body>
 </html>
