@@ -1,13 +1,13 @@
 function loadTodos(id, item) {
 	const itemContainer = document.createElement("LI");
-	itemContainer.setAttribute("id", `todo-${value[0]}`);
+	itemContainer.setAttribute("id", `todo-${id}`);
 	itemContainer.setAttribute("class", `list-item`);
 
 	// reload todo container label
 	const itemLabel = document.createElement("LABEL");
-	itemLabel.setAttribute("for", `${value[0]}`);
+	itemLabel.setAttribute("for", `${id}`);
 	// reloadtodo task as label title.
-	itemLabel.setAttribute("title", value[1]);
+	itemLabel.setAttribute("title", item);
 
 	// reload todo container checkbox
 	const checkBox = document.createElement("INPUT");
@@ -16,18 +16,18 @@ function loadTodos(id, item) {
 		`check the checkbox to mark this task as completed`
 	);
 	checkBox.type = "checkbox";
-	checkBox.setAttribute("id", `${value[0]}`);
+	checkBox.setAttribute("id", `${id}`);
 	checkBox.setAttribute("class", "list_item");
 
 	// Add checkbox to the label before the text
 	itemLabel.appendChild(checkBox);
-	itemLabel.appendChild(document.createTextNode(`${value[1]}`));
+	itemLabel.appendChild(document.createTextNode(`${item}`));
 
 	// reload todo container delete button.
 	const deleteButton = document.createElement("BUTTON");
 	deleteButton.type = "button";
 	deleteButton.setAttribute("class", "deleteButton");
-	deleteButton.setAttribute("id", `${value[0]}`);
+	deleteButton.setAttribute("id", `${id}`);
 	deleteButton.setAttribute("aria-label", "delete task");
 	deleteButton.setAttribute("style", "{color:#c90;}");
 

@@ -6,7 +6,7 @@ function createTodoCompleted(id, item) {
 
 	// create todo container lable
 	const compItemLab = document.createElement("LABEL");
-	compItemLab.setAttribute("for", `${id}`);
+	compItemLab.setAttribute("for", `completed-${id}`);
 	// give label matching title of item to add
 	compItemLab.setAttribute("title", item);
 
@@ -16,7 +16,7 @@ function createTodoCompleted(id, item) {
 	compItemCheck.checked = "true";
 	// add todo value to todo lable
 	compItemCheck.type = "checkbox";
-	compItemCheck.setAttribute("id", `${id}`);
+	compItemCheck.setAttribute("id", `completed-${id}`);
 	compItemCheck.setAttribute("class", "list_item");
 
 	// Add checkbox to the label before the text
@@ -27,9 +27,9 @@ function createTodoCompleted(id, item) {
 	const compItemDelButton = document.createElement("BUTTON");
 	compItemDelButton.type = "button";
 	compItemDelButton.setAttribute("class", "deleteButton");
-	compItemDelButton.setAttribute("id", `${id}`);
+	compItemDelButton.setAttribute("id", `completed-${id}`);
 	compItemDelButton.setAttribute("aria-label", "delete task");
-	compItemDelButton.setAttribute("style", "{color:#c90;}");
+
 	// add logo to delete todo button using span
 	const deleteSpan = document.createElement("span");
 	deleteSpan.classList.add("far", "fa-trash-alt");
